@@ -52,7 +52,7 @@
     </Reference>
     <Reference Include="Nez, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Nez\Nez.Portable\bin\Debug\Nez.dll</HintPath>
+      <HintPath>.\Nez.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\boar_blue.png" />
+    <Content Include="Nez.dll" />
   </ItemGroup>
   <Import Project="..\Chalice_Shared\Chalice_Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

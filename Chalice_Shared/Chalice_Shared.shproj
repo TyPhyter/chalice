@@ -10,9 +10,7 @@
   <Import Project="Chalice_Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Nez\Nez.Portable\Nez.csproj">
-      <Project>{60b7197d-d0d5-405c-90a2-a56903e9b039}</Project>
-      <Name>Nez</Name>
-    </ProjectReference>
+    <Content Include="Content\boar_blue.png" />
+    <Content Include="Nez.dll" />
   </ItemGroup>
 </Project>
