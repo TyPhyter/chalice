@@ -50,6 +50,10 @@
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Nez, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Nez\Nez.Portable\bin\Debug\Nez.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -107,12 +111,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\boar_blue.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Nez\Nez.Portable\Nez.csproj">
-      <Project>{60b7197d-d0d5-405c-90a2-a56903e9b039}</Project>
-      <Name>Nez</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="..\Chalice_Shared\Chalice_Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
