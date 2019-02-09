@@ -7,9 +7,12 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Chalice_Shared", "Chalice_S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chalice_Desktop", "Chalice_Desktop\Chalice_Desktop.csproj", "{020939D8-D92D-41A1-96BF-E0E261CFE279}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chalice_Android", "Chalice_Android\Chalice_Android.csproj", "{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Chalice_Shared\Chalice_Shared.projitems*{020939d8-d92d-41a1-96bf-e0e261cfe279}*SharedItemsImports = 4
+		Chalice_Shared\Chalice_Shared.projitems*{3bf5eb2e-2fe4-47cd-a625-d474cc5e2083}*SharedItemsImports = 4
 		Chalice_Shared\Chalice_Shared.projitems*{a0cdbd0e-3a41-42b7-9425-a838bc2c7383}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +24,12 @@ Global
 		{020939D8-D92D-41A1-96BF-E0E261CFE279}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{020939D8-D92D-41A1-96BF-E0E261CFE279}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{020939D8-D92D-41A1-96BF-E0E261CFE279}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
