@@ -21,6 +21,30 @@ namespace Chalice_Android
             var g = new Game1();
             SetContentView((View)g.Services.GetService(typeof(View)));
             g.Run();
+            HideSystemUI();
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            HideSystemUI();
+        }
+
+        private void HideSystemUI()
+        {
+            if (Android.OS.Build.VERSION.SdkInt >= (Android.OS.BuildVersionCodes)19)
+            {
+                View decorView = Window.DecorView;
+                var uiOptions = (int)decorView.SystemUiVisibility;
+                var newUiOptions = (int)uiOptions;
+
+                newUiOptions |= (int)SystemUiFlags.LowProfile;
+                newUiOptions |= (int)SystemUiFlags.Fullscreen;
+                newUiOptions |= (int)SystemUiFlags.HideNavigation;
+                newUiOptions |= (int)SystemUiFlags.ImmersiveSticky;
+
+                decorView.SystemUiVisibility = (StatusBarVisibility)newUiOptions;
+            }
         }
     }
 }

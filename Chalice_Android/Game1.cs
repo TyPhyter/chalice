@@ -1,9 +1,14 @@
 using System;
 using System.Collections.Generic;
 
+using Xamarin; 
+using Xamarin.Android;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Content;
 
 using MonoGame.Extended;
 using MonoGame.Extended.Animations;
@@ -39,6 +44,7 @@ namespace Chalice_Android
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.ApplyChanges();
+            
 
             Content.RootDirectory = "Content";
         }
