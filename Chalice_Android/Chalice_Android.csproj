@@ -95,8 +95,11 @@
   <ItemGroup>
     <Compile Include="Activity1.cs" />
     <Compile Include="Cards\Minions\Boar.cs" />
+    <Compile Include="Cards\Minions\Minion2.cs" />
     <Compile Include="Components\IMinion.cs" />
     <Compile Include="Entities\Card.cs" />
+    <Compile Include="Entities\Deck.cs" />
+    <Compile Include="Entities\Hand.cs" />
     <Compile Include="Entities\Minion.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -116,6 +119,7 @@
   <ItemGroup>
     <Folder Include="Cards\Artifacts\" />
     <Folder Include="Resources\Layout\" />
+    <Folder Include="Systems\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Drawable\Splash.png" />
@@ -130,8 +134,8 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\board_skeleton.png" />
-    <Content Include="Content\boar_purple.png" />
+    <None Include="Content\board_skeleton.png" />
+    <None Include="Content\boar_purple.png" />
   </ItemGroup>
   <Import Project="..\Chalice_Shared\Chalice_Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

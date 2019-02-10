@@ -7,6 +7,7 @@ using Xamarin.Android;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Content;
 
@@ -37,6 +38,9 @@ namespace Chalice_Android
         Texture2D _background;
         List<Card> Cards;
 
+        Deck Player1Deck;
+        Hand Player1Hand;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -44,7 +48,11 @@ namespace Chalice_Android
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.ApplyChanges();
-            
+
+            if(TouchPanel.GetCapabilities().IsConnected)
+            {
+                Console.WriteLine("**********TOUCH INPUT CONNECTED**********");
+            }  
 
             Content.RootDirectory = "Content";
         }
@@ -66,13 +74,35 @@ namespace Chalice_Android
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Minion boar1 = new Boar(Content);
-            boar1._Pos = new Vector2(100, 100);
-            boar1._Scale = new Vector2(0.25f, 0.25f);
+            boar1.Pos = new Vector2(100, 100);
+            boar1.Scale = new Vector2(0.25f, 0.25f);
 
             Cards = new List<Card>
             {
                 boar1
             };
+
+            Player1Deck = new Deck(new List<Card>
+            {
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                //new Minion2(Content),
+                //new Minion2(Content),
+                //new Minion2(Content),
+                //new Minion2(Content),
+                //new Minion2(Content)
+            });
+
+            Player1Deck.Shuffle(); // make shuffle take iterations as param
+
+            Player1Deck._CardList.ForEach(c => Console.WriteLine(c.Name));
+
+            Player1Hand = new Hand();
+            Player1Hand.Position = new Vector2(100, 100);
+            Player1Hand.AddCards(Player1Deck.Deal(5));
 
             var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             _camera = new Camera2D(viewportAdapter);
@@ -99,13 +129,18 @@ namespace Chalice_Android
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                     Exit();
 
-                float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                keyboardState = Keyboard.GetState();
+                //keyboardState = Keyboard.GetState();
 
-                HandleInputCamera(keyboardState, deltaTime);
+                //HandleInputCamera(keyboardState, deltaTime);
 
-                //mapRenderer.Update(map, gameTime);
+                TouchCollection tc = TouchPanel.GetState();
+                foreach (TouchLocation tl in tc)
+                {
+                    Console.WriteLine(tl.ToString());
+                    Cards[0].Pos = tl.Position;
+                }
 
                 base.Update(gameTime);
             }
@@ -119,12 +154,9 @@ namespace Chalice_Android
 
             spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
 
-            spriteBatch.Draw(_background, position: Vector2.Zero);
+                spriteBatch.Draw(_background, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-            Cards.ForEach(card =>
-            {
-                spriteBatch.Draw(card._Texture, position: card._Pos, scale: card._Scale);
-            });
+                Player1Hand.Render(spriteBatch);
 
             spriteBatch.End();
 

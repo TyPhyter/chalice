@@ -5,22 +5,24 @@ namespace Chalice_Android
 {
     public class Card
     {
-
         static protected Vector2 __default_start_pos__ = new Vector2(-500, -500);
 
-        public Vector2 _Pos;
-        public Vector2 _Scale;
-        public Vector2 _Vel;
-        public Texture2D _Texture;
+        public int _id;
+        public int _InitialIndex;
+        public string Name;
+        public Vector2 Pos;
+        public Vector2 Scale;
+        public Vector2 Vel;
+        public Texture2D Texture;
         public CardType _CardType;
         public CardSubType _CardSubType;
 
         public Card(Texture2D texture = null, CardType cardType = CardType.Minion, CardSubType cardSubType = CardSubType.None)
         {
-            _Texture = texture;
+            Texture = texture;
             _CardType = cardType;
             _CardSubType = cardSubType;
-            _Pos = __default_start_pos__;
+            Pos = __default_start_pos__;
         }
     }
 
