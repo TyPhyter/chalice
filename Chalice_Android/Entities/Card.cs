@@ -13,6 +13,7 @@ namespace Chalice_Android.Entities
         public Vector2 Pos;
         public Vector2 Scale;
         public Vector2 Vel;
+        public int ZIndex = 0;
         public Texture2D Texture;
         public CardType _CardType;
         public CardSubType _CardSubType;

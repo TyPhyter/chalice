@@ -39,15 +39,23 @@ namespace Chalice_Android.Systems
 
                     game.Player1Hand._CardList.ForEach(card =>
                     {
+                        card.ZIndex = 0;
+
                         float cardWidth = card.Texture.Width * card.Scale.X;
                         float cardHeight = card.Texture.Height * card.Scale.Y;
                         if (touch.Position.X > card.Pos.X && touch.Position.X < card.Pos.X + card.Texture.Width * card.Scale.X
                             && touch.Position.Y > card.Pos.Y && touch.Position.Y < card.Pos.Y + card.Texture.Height * card.Scale.Y)
                         {
-                                cursor.HeldCard = card;
-                                cursor.Active = true;
+                            cursor.HeldCard = card;
+                            cursor.Active = true;
+                            card.ZIndex = 1;
                         }
                     });
+
+                    if(cursor.Active)
+                    {
+                        game.Player1Hand._CardList = game.Player1Hand._CardList.OrderBy(c => c.ZIndex).ToList();
+                    }
 
                     cursor.Update(touch);
 
