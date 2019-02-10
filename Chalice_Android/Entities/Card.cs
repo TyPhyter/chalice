@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Chalice_Android
+namespace Chalice_Android.Entities
 {
     public class Card
     {

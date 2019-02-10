@@ -42,6 +42,7 @@ namespace Chalice_Android.Entities
             List<Card> outCards = new List<Card>();
             Stack<Card> deck = new Stack<Card>(_CardList);
 
+            if (quantity > deck.Count) quantity = deck.Count;
             for(int i = 0; i < quantity; i++)
             {
                 outCards.Add(deck.Pop());

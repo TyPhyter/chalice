@@ -29,7 +29,7 @@ namespace Chalice_Android.Entities
         {
             _CardList.ForEach(card =>
             {
-                sb.Draw(card.Texture, card.Pos, null, Color.White, 0f, Vector2.Zero, 0.25f, SpriteEffects.None, 0f);
+                sb.Draw(card.Texture, card.Pos, null, Color.White, 0f, Vector2.Zero, card.Scale.X, SpriteEffects.None, 0f);
             });
         }
 
@@ -43,7 +43,7 @@ namespace Chalice_Android.Entities
         {
             for (int i = 0; i < _CardList.Count; i++)
             {
-                _CardList[i].Pos = new Vector2(Position.X + (i * 75), Position.Y);
+                _CardList[i].Pos = new Vector2(Position.X + (i * 400), Position.Y);
             }
         }
     }

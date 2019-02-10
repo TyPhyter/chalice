@@ -21,6 +21,7 @@ using MonoGame.Extended.ViewportAdapters;
 using Chalice_Android.Entities;
 using Chalice_Android.Components;
 using Chalice_Android.Cards;
+using Chalice_Android.Systems;
 
 
 namespace Chalice_Android
@@ -29,6 +30,7 @@ namespace Chalice_Android
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        InputManager inputManager;
 
         private Camera2D _camera;
 
@@ -36,10 +38,9 @@ namespace Chalice_Android
         private int camSpeed = 200;
 
         Texture2D _background;
-        List<Card> Cards;
 
-        Deck Player1Deck;
-        Hand Player1Hand;
+        public Deck Player1Deck;
+        public Hand Player1Hand;
 
         public Game1()
         {
@@ -52,6 +53,7 @@ namespace Chalice_Android
             if(TouchPanel.GetCapabilities().IsConnected)
             {
                 Console.WriteLine("**********TOUCH INPUT CONNECTED**********");
+                inputManager = new InputManager();
             }  
 
             Content.RootDirectory = "Content";
@@ -72,23 +74,14 @@ namespace Chalice_Android
         protected override void Initialize()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            Minion boar1 = new Boar(Content);
-            boar1.Pos = new Vector2(100, 100);
-            boar1.Scale = new Vector2(0.25f, 0.25f);
-
-            Cards = new List<Card>
-            {
-                boar1
-            };
-
+            
             Player1Deck = new Deck(new List<Card>
             {
                 new Boar(Content),
                 new Boar(Content),
-                new Boar(Content),
-                new Boar(Content),
-                new Boar(Content),
+                //new Boar(Content),
+                //new Boar(Content),
+                //new Boar(Content),
                 //new Minion2(Content),
                 //new Minion2(Content),
                 //new Minion2(Content),
@@ -135,12 +128,7 @@ namespace Chalice_Android
 
                 //HandleInputCamera(keyboardState, deltaTime);
 
-                TouchCollection tc = TouchPanel.GetState();
-                foreach (TouchLocation tl in tc)
-                {
-                    Console.WriteLine(tl.ToString());
-                    Cards[0].Pos = tl.Position;
-                }
+                inputManager.Update(this);
 
                 base.Update(gameTime);
             }
