@@ -99,6 +99,7 @@
     <Compile Include="Components\IMinion.cs" />
     <Compile Include="Entities\Card.cs" />
     <Compile Include="Entities\Deck.cs" />
+    <Compile Include="Entities\GameBoard.cs" />
     <Compile Include="Entities\Hand.cs" />
     <Compile Include="Entities\Minion.cs" />
     <Compile Include="Game1.cs" />

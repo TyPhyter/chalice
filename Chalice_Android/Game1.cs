@@ -38,7 +38,7 @@ namespace Chalice_Android
         private int camSpeed = 200;
 
         Texture2D _background;
-
+        public GameBoard Board;
         public Deck Player1Deck;
         public Hand Player1Hand;
 
@@ -74,14 +74,20 @@ namespace Chalice_Android
         protected override void Initialize()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            Board = new GameBoard();
             
             Player1Deck = new Deck(new List<Card>
             {
                 new Boar(Content),
                 new Boar(Content),
-                //new Boar(Content),
-                //new Boar(Content),
-                //new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
                 //new Minion2(Content),
                 //new Minion2(Content),
                 //new Minion2(Content),
@@ -94,8 +100,13 @@ namespace Chalice_Android
             Player1Deck._CardList.ForEach(c => Console.WriteLine(c.Name));
 
             Player1Hand = new Hand();
-            Player1Hand.Position = new Vector2(100, 100);
-            Player1Hand.AddCards(Player1Deck.Deal(5));
+            Player1Hand.Position = new Vector2(235, 480);
+            Player1Hand.AddCards(Player1Deck.Deal(9));
+
+            for (var i = 0; i < 9; i++)
+            {
+                Player1Hand._CardList[i].Pos = new Vector2(Board.GameGrid.Cells[i].X, Board.GameGrid.Cells[i].Y);
+            }
 
             var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             _camera = new Camera2D(viewportAdapter);

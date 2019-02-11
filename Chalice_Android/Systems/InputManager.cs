@@ -59,6 +59,8 @@ namespace Chalice_Android.Systems
 
                     cursor.Update(touch);
 
+                    Console.WriteLine(touch.Position.ToString());
+
                     break;
 
                 case TouchLocationState.Moved:
