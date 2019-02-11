@@ -48,6 +48,7 @@ namespace Chalice_Android.Systems
                         {
                             cursor.HeldCard = card;
                             cursor.Active = true;
+                            cursor.PickupPoint = card.Pos.ToPoint();
                             card.ZIndex = 1;
                         }
                     });
@@ -71,8 +72,32 @@ namespace Chalice_Android.Systems
 
                 case TouchLocationState.Released:
 
-                    cursor.Active = false;
-                    cursor.HeldCard = null;
+                    game.Board.GameGrid.Cells.ForEach(cell =>
+                    {
+                        if (cell.Rectangle.Contains(touch.Position.ToPoint()))
+                        {
+                            if(!cell.isOccupied && cursor.HeldCard._CardType == CardType.Minion)
+                            {
+                                cursor.HeldCard.Pos = cell.Rectangle.Location.ToVector2();
+                                cell.isOccupied = true;
+                                cursor.Active = false;
+                                cursor.HeldCard = null;
+                            }
+                            else
+                            {
+                                // check artifact stuff
+                            }
+                        }
+                    });
+
+                    if(cursor.Active)
+                    {
+                        cursor.HeldCard.Pos = cursor.PickupPoint.ToVector2();
+                        cursor.Active = false;
+                        cursor.HeldCard = null;
+                    }
+
+                    
                     cursor.Update(touch);
 
                     break;
@@ -86,6 +111,7 @@ namespace Chalice_Android.Systems
     public class Cursor
     {
         public Vector2 Position;
+        public Point PickupPoint;
         public bool Active;
         public Card HeldCard;
 

@@ -43,7 +43,7 @@ namespace Chalice_Android.Entities
         {
             for (int i = 0; i < _CardList.Count; i++)
             {
-                _CardList[i].Pos = new Vector2(Position.X + (i * 400), Position.Y);
+                _CardList[i].Pos = new Vector2(Position.X + (i * 150), Position.Y);
             }
         }
     }

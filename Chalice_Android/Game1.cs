@@ -100,13 +100,8 @@ namespace Chalice_Android
             Player1Deck._CardList.ForEach(c => Console.WriteLine(c.Name));
 
             Player1Hand = new Hand();
-            Player1Hand.Position = new Vector2(235, 480);
-            Player1Hand.AddCards(Player1Deck.Deal(9));
-
-            for (var i = 0; i < 9; i++)
-            {
-                Player1Hand._CardList[i].Pos = new Vector2(Board.GameGrid.Cells[i].X, Board.GameGrid.Cells[i].Y);
-            }
+            Player1Hand.Position = new Vector2(500, 1850);
+            Player1Hand.AddCards(Player1Deck.Deal(3));
 
             var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             _camera = new Camera2D(viewportAdapter);
