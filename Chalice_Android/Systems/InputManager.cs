@@ -46,10 +46,17 @@ namespace Chalice_Android.Systems
                         if (touch.Position.X > card.Pos.X && touch.Position.X < card.Pos.X + card.Texture.Width * card.Scale.X
                             && touch.Position.Y > card.Pos.Y && touch.Position.Y < card.Pos.Y + card.Texture.Height * card.Scale.Y)
                         {
+                            card.wasPlayed = true;
                             cursor.HeldCard = card;
                             cursor.Active = true;
                             cursor.PickupPoint = card.Pos.ToPoint();
                             card.ZIndex = 1;
+                            Cell cell = game.Board.GameGrid.Cells.Find(c => c.Occupant == card);
+                            if (cell != null)
+                            {
+                                cell.Occupant = null;
+                                cell.isOccupied = false;
+                            }
                         }
                     });
 
@@ -80,6 +87,7 @@ namespace Chalice_Android.Systems
                             {
                                 cursor.HeldCard.Pos = cell.Rectangle.Location.ToVector2();
                                 cell.isOccupied = true;
+                                cell.Occupant = cursor.HeldCard;
                                 cursor.Active = false;
                                 cursor.HeldCard = null;
                             }

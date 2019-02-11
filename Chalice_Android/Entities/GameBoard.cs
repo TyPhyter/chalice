@@ -50,6 +50,7 @@ namespace Chalice_Android.Entities
     {
         public Rectangle Rectangle;
         public bool isOccupied;
+        public Card Occupant;
 
         public Cell (Rectangle rect)
         {

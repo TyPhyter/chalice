@@ -17,6 +17,7 @@ namespace Chalice_Android.Entities
         public Texture2D Texture;
         public CardType _CardType;
         public CardSubType _CardSubType;
+        public bool wasPlayed;
 
         public Card(Texture2D texture = null, CardType cardType = CardType.Minion, CardSubType cardSubType = CardSubType.None)
         {
