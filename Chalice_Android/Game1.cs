@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 using Xamarin; 
 using Xamarin.Android;
@@ -106,6 +108,8 @@ namespace Chalice_Android
 
             cards.AddRange(Player1Deck._CardList);
 
+            renderables.AddRange(Player1Deck._CardList);
+
             Player1Deck._CardList.ForEach(c => Console.WriteLine(c.Name));
 
             Player1Hand = new Hand();
@@ -159,10 +163,10 @@ namespace Chalice_Android
                 //move this into the GameBoard and render it there
                 spriteBatch.Draw(_background, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-                Board.Render(spriteBatch);
-                Player1Hand.Render(spriteBatch);
-                if(inputManager.cursor.HeldCard!= null) inputManager.cursor.Render(spriteBatch);
-                //renderables.ForEach(r => { if (r.isActive) r.Render(spriteBatch); } );
+                //Board.Render(spriteBatch);
+                //Player1Hand.Render(spriteBatch);
+                //if(inputManager.cursor.HeldCard!= null) inputManager.cursor.Render(spriteBatch);
+                renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch); } );
 
             spriteBatch.End();
 
