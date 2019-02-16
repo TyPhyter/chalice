@@ -45,7 +45,9 @@ namespace Chalice_Android.Entities
             if (quantity > deck.Count) quantity = deck.Count;
             for(int i = 0; i < quantity; i++)
             {
-                outCards.Add(deck.Pop());
+                Card card = deck.Pop();
+                card.isActive = true;
+                outCards.Add(card);
             }
 
             _CardList = deck.ToList();

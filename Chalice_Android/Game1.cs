@@ -42,6 +42,9 @@ namespace Chalice_Android
         public Deck Player1Deck;
         public Hand Player1Hand;
 
+        List<IRenderable> renderables;
+        public List<Card> cards;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -75,6 +78,10 @@ namespace Chalice_Android
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            renderables = new List<IRenderable>();
+
+            cards = new List<Card>();
+
             Board = new GameBoard();
             
             Player1Deck = new Deck(new List<Card>
@@ -96,6 +103,8 @@ namespace Chalice_Android
             });
 
             Player1Deck.Shuffle(); // make shuffle take iterations as param
+
+            cards.AddRange(Player1Deck._CardList);
 
             Player1Deck._CardList.ForEach(c => Console.WriteLine(c.Name));
 
@@ -147,10 +156,13 @@ namespace Chalice_Android
             Matrix transformMatrix = _camera.GetViewMatrix();
 
             spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
-
+                //move this into the GameBoard and render it there
                 spriteBatch.Draw(_background, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
+                Board.Render(spriteBatch);
                 Player1Hand.Render(spriteBatch);
+                if(inputManager.cursor.HeldCard!= null) inputManager.cursor.Render(spriteBatch);
+                //renderables.ForEach(r => { if (r.isActive) r.Render(spriteBatch); } );
 
             spriteBatch.End();
 

@@ -15,7 +15,10 @@ namespace Chalice_Android.Systems
     public class InputManager
     {
         TouchCollection tc;
-        Cursor cursor;
+        public Cursor cursor;
+        KeyboardState ks;
+        bool inputFlag = true;
+        Card cardJustPlayed;
 
         public InputManager()
         {
@@ -23,6 +26,24 @@ namespace Chalice_Android.Systems
         }
 
         public void Update(Game1 game)
+        {
+            UpdateTouch(game);
+
+            ks = Keyboard.GetState();
+
+            if (ks.IsKeyDown(Keys.D) && inputFlag)
+            {
+                inputFlag = false;
+                game.Player1Hand.AddCards(game.Player1Deck.Deal(1));
+            }
+
+            if (ks.IsKeyUp(Keys.D))
+            {
+                inputFlag = true;
+            }
+        }
+
+        public void UpdateTouch(Game1 game)
         {
             tc = TouchPanel.GetState();
 
@@ -33,11 +54,11 @@ namespace Chalice_Android.Systems
 
             TouchLocation touch = tc.FirstOrDefault();
 
-            switch(touch.State)
+            switch (touch.State)
             {
                 case TouchLocationState.Pressed:
 
-                    game.Player1Hand._CardList.ForEach(card =>
+                    game.cards.ForEach(card =>
                     {
                         card.ZIndex = 0;
 
@@ -46,7 +67,11 @@ namespace Chalice_Android.Systems
                         if (touch.Position.X > card.Pos.X && touch.Position.X < card.Pos.X + card.Texture.Width * card.Scale.X
                             && touch.Position.Y > card.Pos.Y && touch.Position.Y < card.Pos.Y + card.Texture.Height * card.Scale.Y)
                         {
-                            card.wasPlayed = true;
+                            if(!card.wasPlayed)
+                            {
+                                card.wasPlayed = true;
+                                cardJustPlayed = card;                            }
+                            
                             cursor.HeldCard = card;
                             cursor.Active = true;
                             cursor.PickupPoint = card.Pos.ToPoint();
@@ -60,7 +85,13 @@ namespace Chalice_Android.Systems
                         }
                     });
 
-                    if(cursor.Active)
+                    if (cardJustPlayed != null)
+                    {
+                        game.Player1Hand.RemoveCard(cardJustPlayed);
+                        cardJustPlayed = null;
+                    }
+
+                    if (cursor.Active)
                     {
                         game.Player1Hand._CardList = game.Player1Hand._CardList.OrderBy(c => c.ZIndex).ToList();
                     }
@@ -83,7 +114,7 @@ namespace Chalice_Android.Systems
                     {
                         if (cell.Rectangle.Contains(touch.Position.ToPoint()))
                         {
-                            if(!cell.isOccupied && cursor.HeldCard._CardType == CardType.Minion)
+                            if (!cell.isOccupied && cursor.HeldCard != null && cursor.HeldCard._CardType == CardType.Minion)
                             {
                                 cursor.HeldCard.Pos = cell.Rectangle.Location.ToVector2();
                                 cell.isOccupied = true;
@@ -98,21 +129,20 @@ namespace Chalice_Android.Systems
                         }
                     });
 
-                    if(cursor.Active)
+                    if (cursor.Active)
                     {
                         cursor.HeldCard.Pos = cursor.PickupPoint.ToVector2();
                         cursor.Active = false;
                         cursor.HeldCard = null;
                     }
 
-                    
+
                     cursor.Update(touch);
 
                     break;
 
                 default: break;
             }
-            
         }
     }
 
@@ -128,6 +158,11 @@ namespace Chalice_Android.Systems
             Position = tc.Position;
 
             if(HeldCard != null) HeldCard.Pos = new Vector2(Position.X - (HeldCard.Texture.Width / 2) * HeldCard.Scale.X, Position.Y - (HeldCard.Texture.Height / 2) * HeldCard.Scale.Y);
+        }
+
+        public void Render(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(HeldCard.Texture, HeldCard.Pos, null, Color.White, 0f, Vector2.Zero, HeldCard.Scale, SpriteEffects.None, 0f);
         }
     }
 }

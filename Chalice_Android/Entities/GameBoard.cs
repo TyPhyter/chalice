@@ -16,6 +16,11 @@ namespace Chalice_Android.Entities
         {
             GameGrid = new Grid();
         }
+
+        public void Render(SpriteBatch spriteBatch)
+        {
+            GameGrid.Render(spriteBatch);
+        }
     }
 
     public class Grid
@@ -44,6 +49,13 @@ namespace Chalice_Android.Entities
 
             }
         }
+
+        public void Render(SpriteBatch spriteBatch)
+        {
+            Cells.ForEach(c => {
+                c.Render(spriteBatch);
+            });
+        }
     }
 
     public class Cell
@@ -52,9 +64,18 @@ namespace Chalice_Android.Entities
         public bool isOccupied;
         public Card Occupant;
 
-        public Cell (Rectangle rect)
+        public Cell(Rectangle rect)
         {
             Rectangle = rect;
+        }
+
+        public void Render(SpriteBatch spriteBatch)
+        {
+
+            if (isOccupied)
+            {
+                spriteBatch.Draw(Occupant.Texture, Occupant.Pos, null, Color.White, 0f, Vector2.Zero, Occupant.Scale, SpriteEffects.None, 0f);
+            }
         }
     }
 }

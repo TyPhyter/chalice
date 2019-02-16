@@ -39,6 +39,21 @@ namespace Chalice_Android.Entities
             UpdatePositions();
         }
 
+        public void RemoveCards (List<Card> cards)
+        {
+            cards.ForEach(card =>
+            {
+                _CardList.Remove(card);
+            });
+            UpdatePositions();
+        }
+
+        public void RemoveCard (Card card)
+        {
+            _CardList.Remove(card);
+            UpdatePositions();
+        }
+
         public void UpdatePositions()
         {
             for (int i = 0; i < _CardList.Count; i++)

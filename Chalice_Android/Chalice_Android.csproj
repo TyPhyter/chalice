@@ -97,6 +97,7 @@
     <Compile Include="Cards\Minions\Boar.cs" />
     <Compile Include="Cards\Minions\Minion2.cs" />
     <Compile Include="Components\IMinion.cs" />
+    <Compile Include="Components\IRenderable.cs" />
     <Compile Include="Entities\Card.cs" />
     <Compile Include="Entities\Deck.cs" />
     <Compile Include="Entities\GameBoard.cs" />
