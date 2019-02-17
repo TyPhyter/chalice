@@ -18,7 +18,7 @@ namespace Chalice_Android.Systems
         public Cursor cursor;
         KeyboardState ks;
         bool inputFlag = true;
-        Card cardJustPlayed;
+        Card selectedCard;
 
         public InputManager()
         {
@@ -41,6 +41,18 @@ namespace Chalice_Android.Systems
             {
                 inputFlag = true;
             }
+
+            if (ks.IsKeyDown(Keys.Down))
+            {
+                inputFlag = false;
+                game.rotationOrigin = game.rotationOrigin + new Vector2(0, 50);
+            }
+
+            if (ks.IsKeyDown(Keys.Up))
+            {
+                inputFlag = false;
+                game.rotationOrigin = game.rotationOrigin + new Vector2(0, -50);
+            }
         }
 
         public void UpdateTouch(Game1 game)
@@ -62,16 +74,16 @@ namespace Chalice_Android.Systems
                     {
                         card.ZIndex = 0;
 
-                        float cardWidth = card.Texture.Width * card.Scale.X;
-                        float cardHeight = card.Texture.Height * card.Scale.Y;
+                        
                         if (touch.Position.X > card.Pos.X && touch.Position.X < card.Pos.X + card.Texture.Width * card.Scale.X
                             && touch.Position.Y > card.Pos.Y && touch.Position.Y < card.Pos.Y + card.Texture.Height * card.Scale.Y)
                         {
-                            if(!card.wasPlayed)
+                            if (!card.wasPlayed)
                             {
                                 card.wasPlayed = true;
-                                cardJustPlayed = card;                            }
-                            
+                                selectedCard = card;
+                            }
+
                             cursor.HeldCard = card;
                             cursor.Active = true;
                             cursor.PickupPoint = card.Pos.ToPoint();
@@ -85,10 +97,10 @@ namespace Chalice_Android.Systems
                         }
                     });
 
-                    if (cardJustPlayed != null)
+                    if (selectedCard != null)
                     {
-                        game.Player1Hand.RemoveCard(cardJustPlayed);
-                        cardJustPlayed = null;
+                        game.Player1Hand.RemoveCard(selectedCard);
+                        selectedCard = null;
                     }
 
                     if (cursor.Active)

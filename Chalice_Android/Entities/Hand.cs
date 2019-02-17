@@ -13,6 +13,7 @@ namespace Chalice_Android.Entities
     {
         public List<Card> _CardList;
         public Vector2 Position;
+        public int rotationOriginYOffset = 500;
 
         public Hand()
         {
@@ -56,9 +57,13 @@ namespace Chalice_Android.Entities
 
         public void UpdatePositions()
         {
+            float degreesPer = 2f / (_CardList.Count - 1);
+            float startingPoint = -1f;
             for (int i = 0; i < _CardList.Count; i++)
             {
-                _CardList[i].Pos = new Vector2(Position.X + (i * 150), Position.Y);
+                //_CardList[i].Pos = new Vector2(Position.X + (i * 150), Position.Y);
+                _CardList[i].ZIndex = i;
+                _CardList[i].Rotation3D = new Vector3(0,0, startingPoint + (degreesPer * i));
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Chalice_Android.Components
@@ -11,6 +12,6 @@ namespace Chalice_Android.Components
     {
         bool isActive { get; set; }
         int ZIndex { get; set; }
-        void Render(SpriteBatch spriteBatch);
+        void Render(SpriteBatch spriteBatch, Vector2 origin);
     }
 }

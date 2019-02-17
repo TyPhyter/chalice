@@ -46,7 +46,7 @@ namespace Chalice_Android
 
         List<IRenderable> renderables;
         public List<Card> cards;
-
+        public Vector2 rotationOrigin;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -113,7 +113,9 @@ namespace Chalice_Android
             Player1Deck._CardList.ForEach(c => Console.WriteLine(c.Name));
 
             Player1Hand = new Hand();
-            Player1Hand.Position = new Vector2(500, 1850);
+            //Player1Hand.Position = new Vector2(500, 1850);
+            Player1Hand.Position = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
+            rotationOrigin = Player1Hand.Position;
             Player1Hand.AddCards(Player1Deck.Deal(3));
 
             var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
@@ -166,7 +168,7 @@ namespace Chalice_Android
                 //Board.Render(spriteBatch);
                 //Player1Hand.Render(spriteBatch);
                 //if(inputManager.cursor.HeldCard!= null) inputManager.cursor.Render(spriteBatch);
-                renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch); } );
+                renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); } );
 
             spriteBatch.End();
 
