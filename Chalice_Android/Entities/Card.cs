@@ -17,6 +17,12 @@ namespace Chalice_Android.Entities
         public Vector2 Vel;
         public Vector2 Rotation;
         public Vector3 Rotation3D;
+        private Vector2 _origin;
+        public Vector2 Origin
+        {
+            get { return Pos + new Vector2(Texture.Width * Scale.X / 2, Texture.Height * Scale.Y/ 2); }
+            set { _origin = value; }
+        }
         public int ZIndex { get; set; } = 0;
         public Texture2D Texture;
         public CardType _CardType;
@@ -35,7 +41,7 @@ namespace Chalice_Android.Entities
         public void Render(SpriteBatch spriteBatch, Vector2 origin)
         {
             //spriteBatch.Draw(Texture, Pos, null, Color.White, Rotation3D.Z, Vector2.Zero, Scale, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Texture, Pos, null, Color.White, Rotation3D.Z, origin, Scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Texture, Pos, null, Color.White, Rotation3D.Z, Origin, Scale, SpriteEffects.None, 0f);
 
         }
     }

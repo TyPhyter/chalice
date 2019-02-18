@@ -13,7 +13,7 @@ namespace Chalice_Android.Entities
     {
         public List<Card> _CardList;
         public Vector2 Position;
-        public int rotationOriginYOffset = 500;
+        public Vector2 rotationOrigin;
 
         public Hand()
         {
@@ -57,13 +57,24 @@ namespace Chalice_Android.Entities
 
         public void UpdatePositions()
         {
-            float degreesPer = 2f / (_CardList.Count - 1);
-            float startingPoint = -1f;
+            float radiansPer = 1f / (_CardList.Count - 1);
+            float startingRotation = -0.5f;
+            //int startingX = (int)Position.X - 600;
+            //int startingY = (int)Position.Y - 200;
+            int radius = (int)(rotationOrigin.Y - Position.Y);
             for (int i = 0; i < _CardList.Count; i++)
             {
-                //_CardList[i].Pos = new Vector2(Position.X + (i * 150), Position.Y);
+                float zRotation = startingRotation + (radiansPer * i);
+
+                float cardX = radius * (float)Math.Sin(zRotation) + rotationOrigin.X;
+
+                float cosinOp = (float)Math.Cos(2f * (float)Math.PI + zRotation);
+
+                float cardY = rotationOrigin.Y - radius * (float)Math.Cos(2f * (float)Math.PI + zRotation); // subtracting because the y axis is inverted/in the fourth quadrant
+
+                _CardList[i].Pos = new Vector2(cardX, cardY);
                 _CardList[i].ZIndex = i;
-                _CardList[i].Rotation3D = new Vector3(0,0, startingPoint + (degreesPer * i));
+                _CardList[i].Rotation3D = new Vector3(0, 0, zRotation);
             }
         }
     }

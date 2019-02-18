@@ -12,6 +12,7 @@ namespace Chalice_Android.Components
     {
         bool isActive { get; set; }
         int ZIndex { get; set; }
+        Vector2 Origin { get; set; }
         void Render(SpriteBatch spriteBatch, Vector2 origin);
     }
 }

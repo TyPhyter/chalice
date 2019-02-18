@@ -113,8 +113,8 @@ namespace Chalice_Android
             Player1Deck._CardList.ForEach(c => Console.WriteLine(c.Name));
 
             Player1Hand = new Hand();
-            //Player1Hand.Position = new Vector2(500, 1850);
-            Player1Hand.Position = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2);
+            Player1Hand.Position = new Vector2((graphics.GraphicsDevice.Viewport.Width / 2f), (4f/5f) * graphics.GraphicsDevice.Viewport.Height);
+            Player1Hand.rotationOrigin = Player1Hand.Position + (Vector2.UnitY * 500);
             rotationOrigin = Player1Hand.Position;
             Player1Hand.AddCards(Player1Deck.Deal(3));
 
