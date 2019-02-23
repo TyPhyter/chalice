@@ -73,10 +73,11 @@ namespace Chalice_Android.Systems
                     game.cards.ForEach(card =>
                     {
                         card.ZIndex = 0;
-
                         
-                        if (touch.Position.X > card.Pos.X && touch.Position.X < card.Pos.X + card.Texture.Width * card.Scale.X
-                            && touch.Position.Y > card.Pos.Y && touch.Position.Y < card.Pos.Y + card.Texture.Height * card.Scale.Y)
+                        
+                        //if (touch.Position.X > card.Pos.X && touch.Position.X < card.Pos.X + card.Texture.Width * card.Scale.X
+                        //    && touch.Position.Y > card.Pos.Y && touch.Position.Y < card.Pos.Y + card.Texture.Height * card.Scale.Y)
+                        if(card.Collider.Contains(touch.Position))
                         {
                             if (!card.wasPlayed)
                             {

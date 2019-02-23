@@ -12,7 +12,6 @@ namespace Chalice_Android.Cards
         public Boar(ContentManager cm) : base(cm.Load<Texture2D>("boar_purple"), new AttackValues(1,2,5,2), 10)
         {
             Name = "Boar";
-            Scale = new Vector2(0.25f, 0.25f);
         }
     }
 }

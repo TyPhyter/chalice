@@ -57,8 +57,8 @@ namespace Chalice_Android.Entities
 
         public void UpdatePositions()
         {
-            float radiansPer = 1f / (_CardList.Count - 1);
-            float startingRotation = -0.5f;
+            float radiansPer = _CardList.Count > 1 ? .5f / (_CardList.Count - 1) : 0;
+            float startingRotation = _CardList.Count > 1 ? -0.25f : 0f;
             //int startingX = (int)Position.X - 600;
             //int startingY = (int)Position.Y - 200;
             int radius = (int)(rotationOrigin.Y - Position.Y);

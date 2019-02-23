@@ -91,12 +91,12 @@ namespace Chalice_Android
                 new Boar(Content),
                 new Boar(Content),
                 new Boar(Content),
-                new Boar(Content),
-                new Boar(Content),
-                new Boar(Content),
-                new Boar(Content),
-                new Boar(Content),
-                new Boar(Content),
+                //new Boar(Content),
+                //new Boar(Content),
+                //new Boar(Content),
+                //new Boar(Content),
+                //new Boar(Content),
+                //new Boar(Content),
                 //new Minion2(Content),
                 //new Minion2(Content),
                 //new Minion2(Content),
@@ -150,6 +150,8 @@ namespace Chalice_Android
                 //HandleInputCamera(keyboardState, deltaTime);
 
                 inputManager.Update(this);
+
+                cards.ForEach(card => card.Update());
 
                 base.Update(gameTime);
             }
