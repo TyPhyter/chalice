@@ -44,20 +44,21 @@ namespace Chalice_Android.Entities
             Pos = __default_start_pos__;
             Collider.Width = (int)(Texture.Width * Scale.X);
             Collider.Height = (int)(Texture.Height * Scale.Y);
-            Origin = new Vector2((Texture.Width * Scale.X) / 2, (Texture.Height * Scale.Y) / 2);
+            Origin = new Vector2((Texture.Width) / 2, (Texture.Height) / 2);
         }
 
         public void Render(SpriteBatch spriteBatch, Vector2 origin)
         {
-           // spriteBatch.Draw(Texture, Pos, null, Color.White, Rotation3D.Z, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(Texture, Pos, null, Color.White, Rotation3D.Z, Vector2.Zero, Scale, SpriteEffects.None, 0f);
             spriteBatch.Draw(Texture, Pos, null, Color.White, Rotation3D.Z, Origin, Scale, SpriteEffects.None, 0f);
             spriteBatch.DrawRectangle(Collider, Color.Azure, 5f);
+            spriteBatch.FillRectangle(new Rectangle((Pos + Origin * Scale - (5 * Vector2.One)).ToPoint(), new Point(10,10)), Color.GreenYellow);
         }
 
-        public void Update()
+        public void Update(float deltaT)
         {
-            Collider.X = (int)Pos.X;
-            Collider.Y = (int)Pos.Y;
+            Collider.X = (int)(Pos.X - Origin.X * Scale.X);
+            Collider.Y = (int)(Pos.Y - Origin.Y * Scale.Y);
         }
     }
 

@@ -68,7 +68,7 @@ namespace Chalice_Android.Entities
 
                 float cardX = radius * (float)Math.Sin(zRotation) + rotationOrigin.X;
 
-                float cosinOp = (float)Math.Cos(2f * (float)Math.PI + zRotation);
+                //float cosinOp = (float)Math.Cos(2f * (float)Math.PI + zRotation);
 
                 float cardY = rotationOrigin.Y - radius * (float)Math.Cos(2f * (float)Math.PI + zRotation); // subtracting because the y axis is inverted/in the fourth quadrant
 

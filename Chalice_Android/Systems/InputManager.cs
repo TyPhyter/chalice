@@ -89,6 +89,7 @@ namespace Chalice_Android.Systems
                             cursor.Active = true;
                             cursor.PickupPoint = card.Pos.ToPoint();
                             card.ZIndex = 1;
+                            card.Rotation3D.Z = 0f;
                             Cell cell = game.Board.GameGrid.Cells.Find(c => c.Occupant == card);
                             if (cell != null)
                             {
@@ -129,7 +130,7 @@ namespace Chalice_Android.Systems
                         {
                             if (!cell.isOccupied && cursor.HeldCard != null && cursor.HeldCard._CardType == CardType.Minion)
                             {
-                                cursor.HeldCard.Pos = cell.Rectangle.Location.ToVector2();
+                                cursor.HeldCard.Pos = cell.Rectangle.Location.ToVector2() + new Vector2(cell.Rectangle.Width / 2, cell.Rectangle.Height / 2);
                                 cell.isOccupied = true;
                                 cell.Occupant = cursor.HeldCard;
                                 cursor.Active = false;
@@ -170,7 +171,9 @@ namespace Chalice_Android.Systems
         {
             Position = tc.Position;
 
-            if(HeldCard != null) HeldCard.Pos = new Vector2(Position.X - (HeldCard.Texture.Width / 2) * HeldCard.Scale.X, Position.Y - (HeldCard.Texture.Height / 2) * HeldCard.Scale.Y);
+            //if(HeldCard != null) HeldCard.Pos = new Vector2(Position.X - (HeldCard.Texture.Width / 2) * HeldCard.Scale.X, Position.Y - (HeldCard.Texture.Height / 2) * HeldCard.Scale.Y);
+            if (HeldCard != null) HeldCard.Pos = Position;
+
         }
 
         public void Render(SpriteBatch spriteBatch)
