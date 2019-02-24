@@ -7,11 +7,11 @@ using Chalice_Android.Components;
 
 namespace Chalice_Android.Cards
 {
-    class Minion2 : Minion
+    class Possessed_Neophyte : Minion
     {
-        public Minion2(ContentManager cm) : base(/*cm.Load<Texture2D>("boar_purple")*/null, new AttackValues(1, 2, 5, 2), 10)
+        public Possessed_Neophyte(ContentManager cm) : base(cm.Load<Texture2D>("Possessed_Neophyte"), new AttackValues(1, 1, 1, 1), 10)
         {
-            Name = "Minion2";
+            Name = "Possessed_Neophyte";
         }
     }
 }

@@ -53,6 +53,45 @@ namespace Chalice_Android.Systems
                 inputFlag = false;
                 game.rotationOrigin = game.rotationOrigin + new Vector2(0, -50);
             }
+
+            if (ks.IsKeyDown(Keys.X) && inputFlag)
+            {
+                inputFlag = false;
+                game.basicEffectX = game.basicEffectX + 5;
+                game.basicEffect.World = Matrix.CreateRotationX(MathHelper.ToRadians(game.basicEffectX)) * Matrix.CreateRotationY(MathHelper.ToRadians(game.basicEffectY)) * Matrix.CreateRotationZ(MathHelper.ToRadians(game.basicEffectZ)) * Matrix.Identity;
+            }
+
+            if (ks.IsKeyUp(Keys.X))
+            {
+                inputFlag = true;
+            }
+
+            if (ks.IsKeyDown(Keys.Y) && inputFlag)
+            {
+                inputFlag = false;
+                game.basicEffectY = game.basicEffectY + 5;
+                game.basicEffect.World = Matrix.CreateRotationX(MathHelper.ToRadians(game.basicEffectX)) * Matrix.CreateRotationY(MathHelper.ToRadians(game.basicEffectY)) * Matrix.CreateRotationZ(MathHelper.ToRadians(game.basicEffectZ)) * Matrix.Identity;
+            }
+
+            if (ks.IsKeyUp(Keys.Y))
+            {
+                inputFlag = true;
+            }
+
+            if (ks.IsKeyDown(Keys.Z) && inputFlag)
+            {
+                inputFlag = false;
+                game.basicEffectZ = game.basicEffectZ + 5;
+                game.basicEffect.World = Matrix.CreateRotationX(MathHelper.ToRadians(game.basicEffectX)) * Matrix.CreateRotationY(MathHelper.ToRadians(game.basicEffectY)) * Matrix.CreateRotationZ(MathHelper.ToRadians(game.basicEffectZ)) * Matrix.Identity;
+            }
+
+            if (ks.IsKeyUp(Keys.Z))
+            {
+                inputFlag = true;
+            }
+
+
+
         }
 
         public void UpdateTouch(Game1 game)
@@ -91,8 +130,8 @@ namespace Chalice_Android.Systems
 
                                 card.ZIndex = 1;
                                 card.Rotation3D.Z = 0f;
-                                card.Pos = card.Pos + (Vector2.UnitY * -300);
-                                card.Scale = new Vector2(0.3f, 0.3f);
+                                card.Pos = card.Pos + (Vector2.UnitY * -450);
+                                card.Scale = new Vector2(0.35f, 0.35f);
 
                                 Cell cell = game.Board.GameGrid.Cells.Find(c => c.Occupant == card);
                                 if (cell != null)
@@ -106,7 +145,7 @@ namespace Chalice_Android.Systems
 
                     if (cursor.Active)
                     {
-                        game.Player1Hand._CardList = game.Player1Hand._CardList.OrderBy(c => c.ZIndex).ToList();
+                        game.Player1Hand._CardList = game.Player1Hand._CardList.OrderBy(c => c.ZIndex).ThenBy(c => c._InitialIndex).ToList();
                     }
 
                     cursor.Update(touch);

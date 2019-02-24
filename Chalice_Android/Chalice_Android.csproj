@@ -95,7 +95,7 @@
   <ItemGroup>
     <Compile Include="Activity1.cs" />
     <Compile Include="Cards\Minions\Boar.cs" />
-    <Compile Include="Cards\Minions\Minion2.cs" />
+    <Compile Include="Cards\Minions\Possessed_Neophyte.cs" />
     <Compile Include="Components\IMinion.cs" />
     <Compile Include="Components\IRenderable.cs" />
     <Compile Include="Entities\Card.cs" />
@@ -139,6 +139,9 @@
   <ItemGroup>
     <None Include="Content\board_skeleton.png" />
     <None Include="Content\boar_purple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Possessed_Neophyte.png" />
   </ItemGroup>
   <Import Project="..\Chalice_Shared\Chalice_Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

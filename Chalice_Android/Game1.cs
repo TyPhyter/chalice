@@ -33,6 +33,10 @@ namespace Chalice_Android
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         InputManager inputManager;
+        public BasicEffect basicEffect;
+        public int basicEffectX = 0;
+        public int basicEffectY = 0;
+        public int basicEffectZ = 0;
 
         private Camera2D _camera;
 
@@ -89,19 +93,19 @@ namespace Chalice_Android
             Player1Deck = new Deck(new List<Card>
             {
                 new Boar(Content),
-                new Boar(Content),
-                new Boar(Content),
                 //new Boar(Content),
                 //new Boar(Content),
                 //new Boar(Content),
                 //new Boar(Content),
                 //new Boar(Content),
                 //new Boar(Content),
-                //new Minion2(Content),
-                //new Minion2(Content),
-                //new Minion2(Content),
-                //new Minion2(Content),
-                //new Minion2(Content)
+                //new Boar(Content),
+                //new Boar(Content),
+                //new Possessed_Neophyte(Content),
+                //new Possessed_Neophyte(Content),
+                //new Possessed_Neophyte(Content),
+                //new Possessed_Neophyte(Content),
+                //new Possessed_Neophyte(Content)
             });
 
             Player1Deck.Shuffle(); // make shuffle take iterations as param
@@ -113,13 +117,36 @@ namespace Chalice_Android
             Player1Deck._CardList.ForEach(c => Console.WriteLine(c.Name));
 
             Player1Hand = new Hand();
-            Player1Hand.Position = new Vector2((graphics.GraphicsDevice.Viewport.Width / 2f), (4f/5f) * graphics.GraphicsDevice.Viewport.Height);
+            Player1Hand.Position = new Vector2((graphics.GraphicsDevice.Viewport.Width / 2f), graphics.GraphicsDevice.Viewport.Height - 350);
             Player1Hand.rotationOrigin = Player1Hand.Position + (Vector2.UnitY * 1200);
             rotationOrigin = Player1Hand.Position;
             Player1Hand.AddCards(Player1Deck.Deal(3));
 
+            for(int i = 0; i < Player1Hand._CardList.Count; i++)
+            {
+                Player1Hand._CardList[i]._InitialIndex = i;
+            }
+
             var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             _camera = new Camera2D(viewportAdapter);
+
+            basicEffect = new BasicEffect(GraphicsDevice)
+            {
+                TextureEnabled = true,
+                VertexColorEnabled = true,
+            };
+
+            Viewport viewport = GraphicsDevice.Viewport;
+
+            Matrix projection = Matrix.CreateOrthographicOffCenter(0, viewport.Width, viewport.Height, 0, 0, 1);
+            Matrix halfPixelOffset = Matrix.CreateTranslation(-0.5f, -0.5f, 0);
+
+            basicEffect.World = Matrix.Identity * Matrix.CreateTranslation(0, 0, -0.5f);
+            basicEffect.View = Matrix.Identity;
+            basicEffect.Projection = halfPixelOffset * projection;
+
+            basicEffect.TextureEnabled = true;
+            basicEffect.VertexColorEnabled = true;
 
             base.Initialize();
         }
@@ -163,14 +190,17 @@ namespace Chalice_Android
 
             Matrix transformMatrix = _camera.GetViewMatrix();
 
-            spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin();
                 //move this into the GameBoard and render it there
                 spriteBatch.Draw(_background, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-                //Board.Render(spriteBatch);
-                //Player1Hand.Render(spriteBatch);
-                //if(inputManager.cursor.HeldCard!= null) inputManager.cursor.Render(spriteBatch);
-                renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); } );
+                //renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); } );
+
+            spriteBatch.End();
+
+            spriteBatch.Begin(0, null, null, null, null, basicEffect);
+
+                renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
 
             spriteBatch.End();
 

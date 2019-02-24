@@ -14,6 +14,7 @@ namespace Chalice_Android.Entities
         public List<Card> _CardList;
         public Vector2 Position;
         public Vector2 rotationOrigin;
+        public int TotalCardsThisGame = 0;
 
         public Hand()
         {
@@ -36,6 +37,11 @@ namespace Chalice_Android.Entities
 
         public void AddCards (List<Card> cards)
         {
+            for(int i = 0; i < cards.Count; i++)
+            {
+                cards[i].HandId = TotalCardsThisGame;
+                TotalCardsThisGame++;
+            }
             _CardList.AddRange(cards);
             UpdatePositions();
         }
@@ -57,18 +63,28 @@ namespace Chalice_Android.Entities
 
         public void UpdatePositions()
         {
-            float radiansPer = _CardList.Count > 1 ? .5f / (_CardList.Count - 1) : 0;
-            float startingRotation = _CardList.Count > 1 ? -0.25f : 0f;
-            //int startingX = (int)Position.X - 600;
-            //int startingY = (int)Position.Y - 200;
+            if (_CardList.Count == 0) return;
+
+            if (_CardList.Count == 1)
+            {
+                _CardList.First().Pos = Position;
+                _CardList.First().Rotation3D.Z = 0f;
+                return;
+            }
+
+            float radiansPer = .25f;
+
+            float startingRotation = -1 * ((_CardList.Count - 1) * radiansPer / 2);
+            
             int radius = (int)(rotationOrigin.Y - Position.Y);
+
+            _CardList = _CardList.OrderBy(c => c.HandId).ToList();
+
             for (int i = 0; i < _CardList.Count; i++)
             {
                 float zRotation = startingRotation + (radiansPer * i);
 
                 float cardX = radius * (float)Math.Sin(zRotation) + rotationOrigin.X;
-
-                //float cosinOp = (float)Math.Cos(2f * (float)Math.PI + zRotation);
 
                 float cardY = rotationOrigin.Y - radius * (float)Math.Cos(2f * (float)Math.PI + zRotation); // subtracting because the y axis is inverted/in the fourth quadrant
 

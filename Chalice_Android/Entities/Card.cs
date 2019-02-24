@@ -11,6 +11,7 @@ namespace Chalice_Android.Entities
 
         public int _id;
         public int _InitialIndex;
+        public int HandId;
         public string Name;
         //public Vector2 _pos;
         public Vector2 Pos;
@@ -50,7 +51,7 @@ namespace Chalice_Android.Entities
         public void Render(SpriteBatch spriteBatch, Vector2 origin)
         {
             spriteBatch.Draw(Texture, Pos, null, Color.White, Rotation3D.Z, Origin, Scale, SpriteEffects.None, 0f);
-            //spriteBatch.DrawRectangle(Collider, Color.Azure, 5f);
+            spriteBatch.DrawRectangle(Collider, Color.Azure, 5f);
             //spriteBatch.FillRectangle(new Rectangle((Pos + Origin * Scale - (5 * Vector2.One)).ToPoint(), new Point(10,10)), Color.GreenYellow);
         }
 
