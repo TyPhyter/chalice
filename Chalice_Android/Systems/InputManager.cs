@@ -18,7 +18,7 @@ namespace Chalice_Android.Systems
         public Cursor cursor;
         KeyboardState ks;
         bool inputFlag = true;
-        Card selectedCard;
+        Card selectedCard; // may not need this since cursor has HeldCard
 
         public InputManager()
         {
@@ -81,29 +81,28 @@ namespace Chalice_Android.Systems
                         {
                             if (!card.wasPlayed)
                             {
-                                card.wasPlayed = true;
                                 selectedCard = card;
-                            }
 
-                            cursor.HeldCard = card;
-                            cursor.Active = true;
-                            cursor.PickupPoint = card.Pos.ToPoint();
-                            card.ZIndex = 1;
-                            card.Rotation3D.Z = 0f;
-                            Cell cell = game.Board.GameGrid.Cells.Find(c => c.Occupant == card);
-                            if (cell != null)
-                            {
-                                cell.Occupant = null;
-                                cell.isOccupied = false;
+                                // AFRICA: Move this to a routine in Cursor
+                                cursor.HeldCard = card;
+                                cursor.Active = true;
+                                cursor.Status = Cursor.CursorStatus.Staged;
+                                cursor.PickupPoint = card.Pos.ToPoint();
+
+                                card.ZIndex = 1;
+                                card.Rotation3D.Z = 0f;
+                                card.Pos = card.Pos + (Vector2.UnitY * -300);
+                                card.Scale = new Vector2(0.3f, 0.3f);
+
+                                Cell cell = game.Board.GameGrid.Cells.Find(c => c.Occupant == card);
+                                if (cell != null)
+                                {
+                                    cell.Occupant = null;
+                                    cell.isOccupied = false;
+                                }
                             }
                         }
                     });
-
-                    if (selectedCard != null)
-                    {
-                        game.Player1Hand.RemoveCard(selectedCard);
-                        selectedCard = null;
-                    }
 
                     if (cursor.Active)
                     {
@@ -130,11 +129,15 @@ namespace Chalice_Android.Systems
                         {
                             if (!cell.isOccupied && cursor.HeldCard != null && cursor.HeldCard._CardType == CardType.Minion)
                             {
+                                // AFRICA: Move this stuff to routines in their associated classes
                                 cursor.HeldCard.Pos = cell.Rectangle.Location.ToVector2() + new Vector2(cell.Rectangle.Width / 2, cell.Rectangle.Height / 2);
+                                cursor.HeldCard.wasPlayed = true;
                                 cell.isOccupied = true;
                                 cell.Occupant = cursor.HeldCard;
                                 cursor.Active = false;
                                 cursor.HeldCard = null;
+                                game.Player1Hand.RemoveCard(selectedCard);
+                                selectedCard = null;
                             }
                             else
                             {
@@ -146,8 +149,11 @@ namespace Chalice_Android.Systems
                     if (cursor.Active)
                     {
                         cursor.HeldCard.Pos = cursor.PickupPoint.ToVector2();
+                        cursor.HeldCard.Scale = new Vector2(0.25f, 0.25f);
                         cursor.Active = false;
                         cursor.HeldCard = null;
+
+                        game.Player1Hand.UpdatePositions();
                     }
 
 
@@ -166,19 +172,33 @@ namespace Chalice_Android.Systems
         public Point PickupPoint;
         public bool Active;
         public Card HeldCard;
+        public CursorStatus Status;
 
         public void Update(TouchLocation tc)
         {
             Position = tc.Position;
 
+            if (HeldCard != null && Position.Y <= HeldCard.Pos.Y && Status != CursorStatus.Grabbed)
+            {
+                Status = CursorStatus.Grabbed;
+                HeldCard.Scale = new Vector2(0.25f, 0.25f);
+            }
+
             //if(HeldCard != null) HeldCard.Pos = new Vector2(Position.X - (HeldCard.Texture.Width / 2) * HeldCard.Scale.X, Position.Y - (HeldCard.Texture.Height / 2) * HeldCard.Scale.Y);
-            if (HeldCard != null) HeldCard.Pos = Position;
+            if (HeldCard != null && Status == CursorStatus.Grabbed) HeldCard.Pos = Position;
 
         }
 
         public void Render(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(HeldCard.Texture, HeldCard.Pos, null, Color.White, 0f, Vector2.Zero, HeldCard.Scale, SpriteEffects.None, 0f);
+        }
+
+        public enum CursorStatus
+        {
+            Empty,
+            Staged,
+            Grabbed
         }
     }
 }

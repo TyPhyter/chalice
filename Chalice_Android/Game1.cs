@@ -114,7 +114,7 @@ namespace Chalice_Android
 
             Player1Hand = new Hand();
             Player1Hand.Position = new Vector2((graphics.GraphicsDevice.Viewport.Width / 2f), (4f/5f) * graphics.GraphicsDevice.Viewport.Height);
-            Player1Hand.rotationOrigin = Player1Hand.Position + (Vector2.UnitY * 1000);
+            Player1Hand.rotationOrigin = Player1Hand.Position + (Vector2.UnitY * 1200);
             rotationOrigin = Player1Hand.Position;
             Player1Hand.AddCards(Player1Deck.Deal(3));
 
