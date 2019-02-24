@@ -93,19 +93,19 @@ namespace Chalice_Android
             Player1Deck = new Deck(new List<Card>
             {
                 new Boar(Content),
-                //new Boar(Content),
-                //new Boar(Content),
-                //new Boar(Content),
-                //new Boar(Content),
-                //new Boar(Content),
-                //new Boar(Content),
-                //new Boar(Content),
-                //new Boar(Content),
-                //new Possessed_Neophyte(Content),
-                //new Possessed_Neophyte(Content),
-                //new Possessed_Neophyte(Content),
-                //new Possessed_Neophyte(Content),
-                //new Possessed_Neophyte(Content)
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Boar(Content),
+                new Possessed_Neophyte(Content),
+                new Possessed_Neophyte(Content),
+                new Possessed_Neophyte(Content),
+                new Possessed_Neophyte(Content),
+                new Possessed_Neophyte(Content)
             });
 
             Player1Deck.Shuffle(); // make shuffle take iterations as param
@@ -118,14 +118,9 @@ namespace Chalice_Android
 
             Player1Hand = new Hand();
             Player1Hand.Position = new Vector2((graphics.GraphicsDevice.Viewport.Width / 2f), graphics.GraphicsDevice.Viewport.Height - 350);
-            Player1Hand.rotationOrigin = Player1Hand.Position + (Vector2.UnitY * 1200);
+            Player1Hand.rotationOrigin = Player1Hand.Position + (Vector2.UnitY * 1600);
             rotationOrigin = Player1Hand.Position;
             Player1Hand.AddCards(Player1Deck.Deal(3));
-
-            for(int i = 0; i < Player1Hand._CardList.Count; i++)
-            {
-                Player1Hand._CardList[i]._InitialIndex = i;
-            }
 
             var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             _camera = new Camera2D(viewportAdapter);
@@ -176,7 +171,7 @@ namespace Chalice_Android
 
                 //HandleInputCamera(keyboardState, deltaTime);
 
-                inputManager.Update(this);
+                inputManager.Update(this, gameTime);
 
                 cards.ForEach(card => card.Update(gameTime.GetElapsedSeconds()));
 
@@ -193,14 +188,15 @@ namespace Chalice_Android
             spriteBatch.Begin();
                 //move this into the GameBoard and render it there
                 spriteBatch.Draw(_background, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-                //renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); } );
+                Board.GameGrid.Cells.Where(c => c.Occupant != null).Select(c => c.Occupant).OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
+            //renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); } );
 
             spriteBatch.End();
 
             spriteBatch.Begin(0, null, null, null, null, basicEffect);
-
-                renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
+            
+                Player1Hand._CardList.OrderBy(r => r.HandId).ThenBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
+                
 
             spriteBatch.End();
 

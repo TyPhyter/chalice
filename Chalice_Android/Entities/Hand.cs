@@ -14,6 +14,7 @@ namespace Chalice_Android.Entities
         public List<Card> _CardList;
         public Vector2 Position;
         public Vector2 rotationOrigin;
+        public float radiansPer = 0.13f;
         public int TotalCardsThisGame = 0;
 
         public Hand()
@@ -72,7 +73,7 @@ namespace Chalice_Android.Entities
                 return;
             }
 
-            float radiansPer = .25f;
+            //radiansPer = .25f;
 
             float startingRotation = -1 * ((_CardList.Count - 1) * radiansPer / 2);
             

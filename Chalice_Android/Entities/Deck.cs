@@ -8,10 +8,12 @@ namespace Chalice_Android.Entities
     public class Deck
     {
         public List<Card> _CardList { get; private set; }
+        public int InitialSize;
 
         public Deck(List<Card> list)
         {
             _CardList = list;
+            InitialSize = list.Count;
         }
 
         private static Random rng = new Random();
@@ -47,6 +49,7 @@ namespace Chalice_Android.Entities
             {
                 Card card = deck.Pop();
                 card.isActive = true;
+                card.HandId = InitialSize - _CardList.Count;
                 outCards.Add(card);
             }
 
