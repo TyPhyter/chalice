@@ -211,7 +211,7 @@ namespace Chalice_Android.Systems
                     if (gameTime.TotalGameTime.TotalMilliseconds - timeHeld <= 200)
                     {
                         cursor.HeldCard.Pos = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
-                        cursor.HeldCard.Scale = new Vector2(1f, 1f);
+                        cursor.HeldCard.Scale = Vector2.One;
                         cursor.HeldCard.ZIndex = 1;
                         cursor.Status = Cursor.CursorStatus.Zoomed;
                         return;
@@ -225,7 +225,7 @@ namespace Chalice_Android.Systems
                             {
                                 // AFRICA: Move this stuff to routines in their associated classes
                                 cursor.HeldCard.Pos = cell.Rectangle.Location.ToVector2() + new Vector2(cell.Rectangle.Width / 2, cell.Rectangle.Height / 2);
-                                cursor.HeldCard.Scale = Vector2.One * 0.25f;
+                                _game.tweener.TweenTo(cursor.HeldCard, c => c.Scale, Vector2.One * 0.25f, 0.1f, 0f);
                                 cursor.HeldCard.wasPlayed = true;
                                 cell.isOccupied = true;
                                 cell.Occupant = cursor.HeldCard;
@@ -245,14 +245,13 @@ namespace Chalice_Android.Systems
                     if (cursor.Active)
                     {
                         cursor.HeldCard.Pos = cursor.PickupPoint.ToVector2();
-                        cursor.HeldCard.Scale = new Vector2(0.25f, 0.25f);
+                        _game.tweener.TweenTo(cursor.HeldCard, c => c.Scale, Vector2.One * 0.25f, 0.1f, 0f);
                         cursor.Status = Cursor.CursorStatus.Empty;
                         cursor.Active = false;
                         cursor.HeldCard = null;
 
                         game.Player1Hand.UpdatePositions();
                     }
-
 
                     cursor.Update(touch);
 
