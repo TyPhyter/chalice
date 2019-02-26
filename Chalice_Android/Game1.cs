@@ -14,11 +14,10 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Content;
 
 using MonoGame.Extended;
-using MonoGame.Extended.Animations;
-using MonoGame.Extended.Animations.SpriteSheets;
 using MonoGame.Extended.TextureAtlases;
 //using MonoGame.Extended.Tiled;
 using MonoGame.Extended.ViewportAdapters;
+using MonoGame.Extended.Tweening;
 
 using Chalice_Android.Entities;
 using Chalice_Android.Components;
@@ -33,12 +32,12 @@ namespace Chalice_Android
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         InputManager inputManager;
+        public Tweener tweener;
+
         public BasicEffect basicEffect;
         public int basicEffectX = 0;
         public int basicEffectY = 0;
         public int basicEffectZ = 0;
-
-        private Camera2D _camera;
 
         KeyboardState keyboardState;
         private int camSpeed = 200;
@@ -62,7 +61,7 @@ namespace Chalice_Android
             if(TouchPanel.GetCapabilities().IsConnected)
             {
                 Console.WriteLine("**********TOUCH INPUT CONNECTED**********");
-                inputManager = new InputManager();
+                inputManager = new InputManager(this);
             }  
 
             Content.RootDirectory = "Content";
@@ -83,6 +82,8 @@ namespace Chalice_Android
         protected override void Initialize()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            tweener = new Tweener();
 
             renderables = new List<IRenderable>();
 
@@ -121,9 +122,6 @@ namespace Chalice_Android
             Player1Hand.rotationOrigin = Player1Hand.Position + (Vector2.UnitY * 1600);
             rotationOrigin = Player1Hand.Position;
             Player1Hand.AddCards(Player1Deck.Deal(3));
-
-            var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            _camera = new Camera2D(viewportAdapter);
 
             basicEffect = new BasicEffect(GraphicsDevice)
             {
@@ -173,6 +171,8 @@ namespace Chalice_Android
 
                 inputManager.Update(this, gameTime);
 
+                tweener.Update(gameTime.GetElapsedSeconds());
+
                 cards.ForEach(card => card.Update(gameTime.GetElapsedSeconds()));
 
                 base.Update(gameTime);
@@ -182,8 +182,6 @@ namespace Chalice_Android
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            Matrix transformMatrix = _camera.GetViewMatrix();
 
             spriteBatch.Begin();
                 //move this into the GameBoard and render it there
@@ -195,42 +193,12 @@ namespace Chalice_Android
 
             spriteBatch.Begin(0, null, null, null, null, basicEffect);
             
-                Player1Hand._CardList.OrderBy(r => r.HandId).ThenBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
+                Player1Hand._CardList.OrderBy(r => r.ZIndex).ThenBy(r => r.HandId).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
                 
 
             spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        public bool HandleInputCamera(KeyboardState keyboard, float deltaTime)
-        {
-
-            if (keyboardState.IsKeyDown(Keys.W))
-            {
-                _camera.Move(new Vector2(0, -camSpeed * deltaTime));
-            }
-            if (keyboardState.IsKeyDown(Keys.S))
-            {
-                _camera.Move(new Vector2(0, camSpeed * deltaTime));
-            }
-            if (keyboardState.IsKeyDown(Keys.A))
-            {
-                _camera.Move(new Vector2(-camSpeed * deltaTime, 0));
-            }
-            if (keyboardState.IsKeyDown(Keys.D))
-            {
-                _camera.Move(new Vector2(camSpeed * deltaTime, 0));
-            }
-            if (keyboardState.IsKeyDown(Keys.E))
-            {
-                _camera.ZoomIn(1 * deltaTime);
-            }
-            if (keyboardState.IsKeyDown(Keys.Q))
-            {
-                _camera.ZoomOut(1 * deltaTime);
-            }
-            return true;
         }
     }
 }

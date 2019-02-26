@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame.Extended.Tweening;
+
 using Chalice_Android.Components;
 using Chalice_Android.Utils;
 namespace Chalice_Android.Entities
@@ -36,7 +38,7 @@ namespace Chalice_Android.Entities
         public CardSubType _CardSubType;
         public bool wasPlayed;
         public bool isActive { get; set; }
-        
+
         public Card(Texture2D texture = null, CardType cardType = CardType.Minion, CardSubType cardSubType = CardSubType.None)
         {
             Texture = texture;

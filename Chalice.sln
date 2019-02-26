@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chalice_Desktop", "Chalice_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chalice_Android", "Chalice_Android\Chalice_Android.csproj", "{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Extended", "..\MonoGame.Extended\Source\MonoGame.Extended\MonoGame.Extended.csproj", "{8DA9BC75-E59B-4BB8-8724-153EC4DD8AFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame.Extended.Tweening", "..\MonoGame.Extended\Source\MonoGame.Extended.Tweening\MonoGame.Extended.Tweening.csproj", "{A41768E8-868F-4F27-8CDA-1CDF72A16772}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Chalice_Shared\Chalice_Shared.projitems*{020939d8-d92d-41a1-96bf-e0e261cfe279}*SharedItemsImports = 4
@@ -30,6 +34,14 @@ Global
 		{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3BF5EB2E-2FE4-47CD-A625-D474CC5E2083}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{8DA9BC75-E59B-4BB8-8724-153EC4DD8AFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DA9BC75-E59B-4BB8-8724-153EC4DD8AFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DA9BC75-E59B-4BB8-8724-153EC4DD8AFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DA9BC75-E59B-4BB8-8724-153EC4DD8AFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A41768E8-868F-4F27-8CDA-1CDF72A16772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A41768E8-868F-4F27-8CDA-1CDF72A16772}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A41768E8-868F-4F27-8CDA-1CDF72A16772}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A41768E8-868F-4F27-8CDA-1CDF72A16772}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

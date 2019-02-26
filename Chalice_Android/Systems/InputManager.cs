@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 
+using MonoGame.Extended;
+using MonoGame.Extended.Tweening;
+
 using Chalice_Android.Entities;
 
 namespace Chalice_Android.Systems
@@ -21,10 +24,13 @@ namespace Chalice_Android.Systems
         Keys trackingKey;
         Card selectedCard; // may not need this since cursor has HeldCard
         int timeHeld;
+        Game1 _game;
+        
 
-        public InputManager()
+        public InputManager(Game1 game)
         {
-            cursor = new Cursor();
+            _game = game;
+            cursor = new Cursor(_game);
         }
 
         public void Update(Game1 game, GameTime gameTime)
@@ -206,6 +212,7 @@ namespace Chalice_Android.Systems
                     {
                         cursor.HeldCard.Pos = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
                         cursor.HeldCard.Scale = new Vector2(1f, 1f);
+                        cursor.HeldCard.ZIndex = 1;
                         cursor.Status = Cursor.CursorStatus.Zoomed;
                         return;
                     }
@@ -218,6 +225,7 @@ namespace Chalice_Android.Systems
                             {
                                 // AFRICA: Move this stuff to routines in their associated classes
                                 cursor.HeldCard.Pos = cell.Rectangle.Location.ToVector2() + new Vector2(cell.Rectangle.Width / 2, cell.Rectangle.Height / 2);
+                                cursor.HeldCard.Scale = Vector2.One * 0.25f;
                                 cursor.HeldCard.wasPlayed = true;
                                 cell.isOccupied = true;
                                 cell.Occupant = cursor.HeldCard;
@@ -257,25 +265,40 @@ namespace Chalice_Android.Systems
 
     public class Cursor
     {
+        public Game game;
         public Vector2 Position;
+        public Vector2 PrevPosition;
         public Point PickupPoint;
         public bool Active;
         public Card HeldCard;
         public CursorStatus Status;
+        Game1 _game;
+
+        public Cursor(Game1 game)
+        {
+            _game = game;
+        }
 
         public void Update(TouchLocation tc)
         {
+            PrevPosition = Position;
             Position = tc.Position;
+
+            Vector2 velocity = new Vector2(Math.Min(Math.Abs(Position.X - PrevPosition.X), 30), Math.Min(Math.Abs(Position.Y - PrevPosition.Y), 30));
 
             if (HeldCard != null && Position.Y <= HeldCard.Pos.Y && Status != CursorStatus.Grabbed)
             {
                 Status = CursorStatus.Grabbed;
                 HeldCard.Scale = new Vector2(0.25f, 0.25f);
             }
-
-            //if(HeldCard != null) HeldCard.Pos = new Vector2(Position.X - (HeldCard.Texture.Width / 2) * HeldCard.Scale.X, Position.Y - (HeldCard.Texture.Height / 2) * HeldCard.Scale.Y);
-            if (HeldCard != null && Status == CursorStatus.Grabbed) HeldCard.Pos = Position;
-
+            
+            if (HeldCard != null && Status == CursorStatus.Grabbed)
+            {
+                HeldCard.Pos = Position;
+                
+                _game.tweener.TweenTo(HeldCard, c => c.Scale, (Vector2.One * 0.25f) - (velocity * .0025f), 0.1f, 0f);
+     
+            }
         }
 
         public void Render(SpriteBatch spriteBatch)
