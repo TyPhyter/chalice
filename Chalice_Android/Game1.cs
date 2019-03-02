@@ -33,6 +33,7 @@ namespace Chalice_Android
         SpriteBatch spriteBatch;
         InputManager inputManager;
         public Tweener tweener;
+        public SpriteFont testFont;
 
         public BasicEffect basicEffect;
         public int basicEffectX = 0;
@@ -50,6 +51,7 @@ namespace Chalice_Android
         List<IRenderable> renderables;
         public List<Card> cards;
         public Vector2 rotationOrigin;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -139,7 +141,7 @@ namespace Chalice_Android
             basicEffect.Projection = halfPixelOffset * projection;
 
             basicEffect.TextureEnabled = true;
-            basicEffect.VertexColorEnabled = true;
+            basicEffect.VertexColorEnabled = true;            
 
             base.Initialize();
         }
@@ -148,6 +150,7 @@ namespace Chalice_Android
         {
             //should probably move texture to a component and load it in a system here
             _background = Content.Load<Texture2D>("board_skeleton");
+            testFont = Content.Load<SpriteFont>("Arial");
         }
 
         protected override void UnloadContent()
@@ -187,6 +190,7 @@ namespace Chalice_Android
                 //move this into the GameBoard and render it there
                 spriteBatch.Draw(_background, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 Board.GameGrid.Cells.Where(c => c.Occupant != null).Select(c => c.Occupant).OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
+                spriteBatch.DrawString(testFont, "1", new Vector2(100, 100), Color.White);
             //renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); } );
 
             spriteBatch.End();

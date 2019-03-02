@@ -283,7 +283,7 @@ namespace Chalice_Android.Systems
             PrevPosition = Position;
             Position = tc.Position;
 
-            Vector2 velocity = new Vector2(Math.Min(Math.Abs(Position.X - PrevPosition.X), 30), Math.Min(Math.Abs(Position.Y - PrevPosition.Y), 30));
+            Vector2 velocity = new Vector2(Math.Min(Math.Abs(Position.X - PrevPosition.X), 45), Math.Min(Math.Abs(Position.Y - PrevPosition.Y), 30));
 
             if (HeldCard != null && Position.Y <= HeldCard.Pos.Y && Status != CursorStatus.Grabbed)
             {
