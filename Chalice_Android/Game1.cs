@@ -43,7 +43,8 @@ namespace Chalice_Android
         KeyboardState keyboardState;
         private int camSpeed = 200;
 
-        Texture2D _background;
+        Texture2D Splash_Screen;
+        Texture2D Background;
         public GameBoard Board;
         public Deck Player1Deck;
         public Hand Player1Hand;
@@ -51,6 +52,21 @@ namespace Chalice_Android
         List<IRenderable> renderables;
         public List<Card> cards;
         public Vector2 rotationOrigin;
+
+        public enum States
+        {
+            Splash,
+            Main,
+            Game,
+            Win,
+            Lose,
+            Settings
+            //Init_Game
+            //Coin Flip
+            //Mulligan
+            //Turn: p1.draw, p1.play?, p1.attack?, repeat for p2
+        }
+        public States State = States.Game;
 
         public Game1()
         {
@@ -149,7 +165,8 @@ namespace Chalice_Android
         protected override void LoadContent()
         {
             //should probably move texture to a component and load it in a system here
-            _background = Content.Load<Texture2D>("board_skeleton");
+            Background = Content.Load<Texture2D>("board_skeleton");
+            Splash_Screen = Content.Load<Texture2D>("Red_Coin_Splash");
             testFont = Content.Load<SpriteFont>("Arial");
         }
 
@@ -166,17 +183,29 @@ namespace Chalice_Android
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                     Exit();
 
-                //float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                switch(State)
+                {
+                    case States.Splash:
+                        break;
+                    case States.Main:
+                        break;
+                    case States.Game:
 
-                //keyboardState = Keyboard.GetState();
+                        //float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                //HandleInputCamera(keyboardState, deltaTime);
+                        //keyboardState = Keyboard.GetState();
 
-                inputManager.Update(this, gameTime);
+                        //HandleInputCamera(keyboardState, deltaTime);
 
-                tweener.Update(gameTime.GetElapsedSeconds());
+                        inputManager.Update(this, gameTime);
 
-                cards.ForEach(card => card.Update(gameTime.GetElapsedSeconds()));
+                        tweener.Update(gameTime.GetElapsedSeconds());
+
+                        cards.ForEach(card => card.Update(gameTime.GetElapsedSeconds()));
+                        break;
+                }
+
+                
 
                 base.Update(gameTime);
             }
@@ -184,23 +213,33 @@ namespace Chalice_Android
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            switch (State)
+            {
+                case States.Splash:
+                    break;
+                case States.Main:
+                    break;
+                case States.Game:
+                    GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-                //move this into the GameBoard and render it there
-                spriteBatch.Draw(_background, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                Board.GameGrid.Cells.Where(c => c.Occupant != null).Select(c => c.Occupant).OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
-                spriteBatch.DrawString(testFont, "1", new Vector2(100, 100), Color.White);
-            //renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); } );
+                    spriteBatch.Begin();
+                    //move this into the GameBoard and render it there
+                    spriteBatch.Draw(Background, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                    Board.GameGrid.Cells.Where(c => c.Occupant != null).Select(c => c.Occupant).OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
+                    spriteBatch.DrawString(testFont, "1", new Vector2(100, 100), Color.White);
+                    //renderables.OrderBy(r => r.ZIndex).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); } );
 
-            spriteBatch.End();
+                    spriteBatch.End();
 
-            spriteBatch.Begin(0, null, null, null, null, basicEffect);
+                    spriteBatch.Begin(0, null, null, null, null, basicEffect);
+
+                    Player1Hand._CardList.OrderBy(r => r.ZIndex).ThenBy(r => r.HandId).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
+
+
+                    spriteBatch.End();
+                    break;
+            }
             
-                Player1Hand._CardList.OrderBy(r => r.ZIndex).ThenBy(r => r.HandId).ToList().ForEach(r => { if (r.isActive) r.Render(spriteBatch, rotationOrigin); });
-                
-
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }

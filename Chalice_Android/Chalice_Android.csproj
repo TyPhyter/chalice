@@ -130,6 +130,9 @@
       <Name>MonoGame.Extended</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Red_Coin_Splash.png" />
+  </ItemGroup>
   <Import Project="..\Chalice_Shared\Chalice_Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
